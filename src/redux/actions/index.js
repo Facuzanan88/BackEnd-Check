@@ -68,4 +68,13 @@ export const deleteCharacter = (id) => {
 
 // Para obtener las naves, recorda mapear la info que te llega de la api, para retornar un array solo de naves, proba hacer un console.log()
 // de lo que te devuelve la api, para mayor certeza.
-export const getShips = () => { };
+export const getShips = () => {
+    return async function (dispatch) {
+        return (fetch('http://localhost:3001/characters')
+            .then(response => response.json())
+            .then(json => dispatch({
+                type: GET_SHIPS,
+                payload: json.map(s => s.ship)
+            })))
+    };
+};

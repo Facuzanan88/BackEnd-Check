@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import * as actions from "../../redux/actions";
 import { useDispatch } from "react-redux";
 // Importar las actions como Object Modules, sino los test no funcionarán!
 
@@ -8,47 +9,53 @@ import { useDispatch } from "react-redux";
 // Si no lo hacen asi los test no van a correr.
 
 const CreateCharacter = () => {
-
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch();
   const [state, setState] = React.useState({
-    name: '',
-    race: '',
-    faction: '',
-    role: '',
-    ship: '',
-  })
+    name: "",
+    race: "",
+    role: "",
+    faction: "",
+    ship: {
+      name: "",
+    },
+  });
 
-  function handleChange(p) {
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    dispatch(actions.createCharacter(state));
+  };
+
+  const handleOnChange = (e) => {
     setState({
       ...state,
-      [p.target.name]: p.target.value,
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
+  const handleOnChangeShips = (e) => {
+    setState({
+      ...state,
+      [e.target.name]: {
+        name: e.target.value,
+      },
+    });
+  };
 
   return (
-    <form>
-
+    <form onSubmit={handleOnSubmit}>
       <label>Name: </label>
-      <input type='text' name="name" onChange={() => handleChange()} />
-
+      <input name="name" type="text" onChange={handleOnChange} />
       <label>Race: </label>
-      <input type='text' name="race" value={state.race} onChange={handleChange} />
-
+      <input name="race" type="text" onChange={handleOnChange} />
       <label>Faction: </label>
-      <input type='text' name="faction" value={state.faction} onChange={handleChange} />
-
+      <input name="faction" type="text" onChange={handleOnChange} />
       <label>Role: </label>
-      <input type='text' name="role" value={state.role} onChange={handleChange} />
-
+      <input name="role" type="text" onChange={handleOnChange} />
       <label>Ship: </label>
-      <input type='text' name="ship" value={state.ship} onChange={handleChange} />
-
-      <button type='submit'>Create Character</button>
+      <input name="ship" type="text" onChange={handleOnChangeShips} />
+      <button type="submit">Create Character</button>
     </form>
   );
 };
-
 
 export default CreateCharacter;
