@@ -2,7 +2,7 @@ import "./CharacterCard.css";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { deleteCharacter } from "../../redux/actions";
+import * as actions from "../../redux/actions";
 // Importar las actions como Object Modules, sino los test no funcionarán!
 
 //PARA QUE LOS TEST CORRAN, DEBEN HACER ESTE COMPONENTE COMO UN FUNCIONAL COMPONENT.
@@ -11,7 +11,7 @@ const CharacterCard = (props) => {
 
   const dispatch = useDispatch()
 
-  const handleOnClick = () => dispatch(deleteCharacter(props.id))
+  const handleOnClick = () => dispatch(actions.deleteCharacter(props.id))
 
   return (
     <div className="card">
