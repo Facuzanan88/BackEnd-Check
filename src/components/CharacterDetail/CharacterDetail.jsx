@@ -1,4 +1,7 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import * as actions from "../../redux/actions";
+import * as ReactRedux from 'react-redux'
 
 // Importar las actions como Object Modules, sino los test no funcionarán!
 
@@ -8,9 +11,24 @@ import React from "react";
 // Si no lo hacen asi los test no van a correr.
 // TIP: Aqui seria un buen momento para utilizar el hook useSelector.
 
-const CharacterDetail = (props) => {
+const CharacterDetail = ({ match }) => {
+  const dispatch = useDispatch()
+
+  const characterId = match.params.id
+
+  const characterDetail = ReactRedux.useSelector((state) => state.characterDetail)
+
+  React.useEffect(() => { dispatch(actions.getCharacterDetail(characterId)) }, [])
+
   return (
     <div>
+      {characterDetail.name}
+      {characterDetail.faction}
+      {characterDetail.role}
+      {characterDetail.race}
+      <img src={characterDetail.image} alt={characterDetail.name} />
+      {characterDetail.ship.name}
+      <img src={characterDetail.ship.image} alt={characterDetail.ship.name} />
     </div>
   );
 };
